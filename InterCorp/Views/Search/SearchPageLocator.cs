@@ -48,8 +48,5 @@ namespace Intercop.Web.UITests.Views.Search
 
         public ReadOnlyCollection<NgWebElement> OrderListElement => Web.FindElements(OrderList);
 
-
-
-
     }
 }

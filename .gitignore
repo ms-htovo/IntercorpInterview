@@ -46,6 +46,7 @@ Generated\ Files/
 *.pidb
 *.svclog
 *.scc
+*.png
 
 # NuGet Packages
 *.nupkg

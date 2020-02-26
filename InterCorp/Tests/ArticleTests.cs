@@ -6,7 +6,7 @@ namespace Intercop.Tests
     public class ArticleTests : UITest
     {
         [Test]
-        public void TC_OrderByPriceAsc()
+        public void TC_LookForArticles()
         {
             Browser
                 .GoToHomePage()

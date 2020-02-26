@@ -1,8 +1,9 @@
 ﻿
-
 using NUnit.Framework;
 using OpenQA.Selenium;
-using System.Collections.Generic;
+using OpenQA.Selenium.Support.Extensions;
+using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Intercop.Web.UITests.Views.Search
@@ -30,6 +31,7 @@ namespace Intercop.Web.UITests.Views.Search
             View.ExplicitWait(View.Locate.FilterApplied);
             Assert.IsTrue(View.Locate.FilterAppliedElement.Displayed, $"Filter by {brand} is not Displayed");
             Assert.IsTrue(View.Locate.FilterAppliedElement.Text.Contains(brand), $"{brand} is not displayed as a filter");
+            TestContext.WriteLine($"{brand} is displayed correctly");
             return View;
         }
 
@@ -40,9 +42,14 @@ namespace Intercop.Web.UITests.Views.Search
             View.Locate.MultipleFiltersElement.Click();
             var filters = View.Locate.filterListElement.ToList();
             Assert.IsTrue(filters.Any(x => x.Text.Contains(filter1)), $"{filter1} is not shown as result");
-            Assert.IsTrue(filters.Any(x => x.Text.Contains(filter2)), $"{filter2} is not shown as result");
+            Assert.IsTrue(filters.Any(x => x.Text.Contains(filter2)), $"{filters[0]} {filters[1]} is not shown as result");
             TestContext.WriteLine($"Amoumt if items for {filter1} and {filter2} Filters is {View.Locate.ResultElement.FindElements(By.ClassName("BOLD")).ToList().First().Text}");
+            var results = View.Locate.ResultElement.FindElements(By.ClassName("BOLD")).ToList();
+            Assert.IsTrue(int.Parse(results.First().Text, NumberStyles.AllowThousands) > 0, "There is not Results on the Web Page For {filter1} with {filter2}");
+            View.ExplicitWait(View.Locate.CloseMultipleFilter);
             View.Locate.CloseMultipleFilterElement.Click();
+            var name = $"FilterCombined{DateTime.Now.Minute}.png";
+            View.WebUser.Driver.WebDriver.WrappedDriver.TakeScreenshot().SaveAsFile(name);
             return View;
         }
 

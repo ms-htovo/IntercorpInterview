@@ -33,16 +33,16 @@ namespace Intercop.Web.UITests.Views.Search
         public SearchPage SelectFilter(string filterName)
         {
             ExplicitWait(Locate.Brands);
-            Assert.IsTrue(Locate.BrandList.ToList().Any(x => x.Text.Contains(filterName)), $"{filterName} is not shown as result");
             foreach (NgWebElement elem in Locate.BrandList)
             {
                 if (elem.Text.Contains(filterName))
                 {
+                    Assert.IsTrue(elem.Displayed);
+                    TestContext.WriteLine($"Filter {elem.Text} is selected");
                     elem.Click();
                     break;
                 }
             }
-            TestContext.WriteLine($"Filter {filterName} is selected");
             return this;
 
         }
